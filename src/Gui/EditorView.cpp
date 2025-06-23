@@ -823,6 +823,14 @@ void SearchBar::retranslateUi()
 
 void SearchBar::activate()
 {
+    // Získat označený text z aktivního editoru
+    Gui::MDIView* view = Gui::Application::Instance->activeDocument()->getActiveView();
+    if (Gui::PythonEditor* editor = qobject_cast<Gui::PythonEditor*>(view)) {
+        QString selected = editor->textCursor().selectedText();
+        if (!selected.isEmpty())
+            searchText->setText(selected);
+    }
+    
     show();
     searchText->selectAll();
     searchText->setFocus(Qt::ShortcutFocusReason);
